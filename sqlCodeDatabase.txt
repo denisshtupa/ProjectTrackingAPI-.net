@@ -1,0 +1,136 @@
+use master
+
+create database School
+
+
+CREATE TABLE StudentAddress (  
+    StudentID    INT      IDENTITY (1, 1) NOT NULL,  
+    Address1  varchar(50) NOT NULL,  
+    Address2  varchar(50) NULL,  
+    City     varchar(50) NOT NULL,  
+    [State]     varchar(50)      NOT NULL  
+); 
+
+CREATE TABLE Student (  
+    StudentID    INT      IDENTITY (1, 1) NOT NULL,  
+    FirstName  varchar(50) NOT NULL,  
+    LastName  varchar(50) NULL,  
+    StandardId     INT NOT NULL
+); 
+
+CREATE TABLE [Standard] (  
+    StudentID    INT      IDENTITY (1, 1) NOT NULL,  
+    StandardName  varchar(50) NOT NULL,  
+    [Description]  varchar(50) NULL
+); 
+
+create Table Teacher (
+	TeacherId  INT identity (1,1) not null,
+	TeacherName varchar(50) not null, 
+	StandardId int not null
+);
+
+
+--////////////////////////////////////////////////////
+
+use master
+
+create database ProjectTrackingDB
+
+use ProjectTrackingDB 
+go
+
+select * from Employees
+
+Create Table ProjectTasks (
+	ProjectTaskID int identity,
+	AssignedTo int,
+	TaskStartDate datetime,
+	TaskEndDate datetime,
+	TaskCompletion int,
+	UserStoryID int,
+	Primary key (ProjectTaskID)	
+);
+
+Alter table ProjectTasks 
+Add Foreign key (UserStoryID) references UserStories(UserStoryID);
+
+Alter table ProjectTasks
+Add Foreign key (AssignedTo) references Employees(EmployeeID);
+
+Create Table Employees ( 
+	EmployeeID int,
+	EmployeeName nvarchar(100),
+	Designation nvarchar(100),
+	ManagerID int,
+	ContactNo nvarchar(15),
+	EMailID nvarchar(30),
+	SkillSets nvarchar(100),
+	primary key (EmployeeID)
+);
+
+Create Table ManagerComments (
+	ManagerCommentID int identity,
+	Comments nvarchar(2000),
+	ProjectTaskID int,
+	primary key (ManagerCommentID)	
+);
+
+Alter table ManagerComments
+Add foreign key (ProjectTaskID) references ProjectTasks(ProjectTaskID);
+
+Create Table UserStories (
+	UserStoryID int,
+	Story nvarchar(4000),
+	ProjectID int,
+	primary key (UserStoryID)	
+);
+
+Alter Table UserStories 
+Add foreign key (ProjectID) references Projects(ProjectID);
+
+Create Table Projects (
+	ProjectID int identity, 
+	ProjectName nvarchar(100),
+	StartDate datetime,
+	EndDate datetime,
+	ClientName nvarchar(100),
+	primary key (ProjectID)
+);
+
+INSERT INTO Employees VALUES(1000,'John Mike','Project Manager',null,'36672566290','john@projects.com','.NET Framework')
+INSERT INTO Employees VALUES(1001,'Mark Andrus','Developer',1000,'3667233322','john@projects.com','.NET Framework, ASP.NET MVC')
+INSERT INTO Employees VALUES(1002,'Johnny Richard','Developer',1000,'3667299999','johnny@projects.com','Angular JS')
+INSERT INTO Employees VALUES(1003,'Maria Andrus','Developer',1000,'3667277777','maria@projects.com','jQuery, JavaScript')
+INSERT INTO Employees VALUES(1004,'Richy Richard','Designer',1000,'3667277771','richy@projects.com','HTML 5, CSS 3')
+INSERT INTO Employees VALUES(1005,'Honey Deskter','Designer',1000,'3667222222','honey@projects.com','HTML 5, CSS 3')
+INSERT INTO Employees VALUES(1006,'Doketo Richy','Developer',1000,'36672512223','diketo@projects.com','.NET Framework, ASP.NET, ASP.NET MVC')
+INSERT INTO Employees VALUES(1007,'June M.','Designer',1000,'3667278787','june@projects.com','HTML 5, CSS 3')
+INSERT INTO Employees VALUES(1008,'Anjala Johns','Developer',1000,'3667298989','anjala@projects.com','.NET Framework')
+INSERT INTO Employees VALUES(1009,'Austin A.','Developer',1000,'36672590009','auston@projects.com','SQL Server')
+
+Insert into Projects Values('Able+','2016-06-15 09:00:00','2019-06-15 18:00:00','New ERA Education')
+Insert into Projects Values('School Ping','2017-05-15 09:00:00','2018-06-15 09:00:00','New ERA Education')
+
+
+INSERT INTO UserStories VALUES(100,'This user story will develope by 3i solutions.',2)
+INSERT INTO UserStories VALUES(101,'School Ping is an app for mobile.',3)
+INSERT INTO UserStories VALUES(102,'Trans adriatic pipeline to transfer gaz from Russia to Italia',4)
+INSERT INTO UserStories VALUES(103,'Front End of Able was developed on Angular 2',2)
+
+
+INSERT INTO ProjectTasks Values(1010,'2018-04-25 09:00:00','2018-04-28 18:00:00',1,103)
+INSERT INTO ProjectTasks Values(1009,'2018-04-26 09:00:00','2018-04-29 18:00:00',2,100)
+
+
+INSERT INTO ManagerComments VALUES('3i solutions developed an application for Real Madrid team. This app is focused on glories for team. We are glad about fact that this team has 12 champions Leagues.',1)
+
+
+delete from Projects
+where ProjectID =1
+
+SELECT * FROM Projects
+SELECT * FROM Employees
+SELECT * FROM UserStories
+SELECT * FROM ProjectTasks
+SELECT * FROM ManagerComments
